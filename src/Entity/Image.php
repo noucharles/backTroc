@@ -23,7 +23,7 @@ use App\Controller\UploadImageAction;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ImageRepository", repositoryClass=ImageRepository::class)
  */
 class Image
 {
@@ -49,6 +49,7 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity=Annonce::class, inversedBy="images")
+     * @ORM\JoinColumn(name="annonce_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * @Groups({"post"})
      */
     private $annonce;

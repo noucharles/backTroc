@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\AnnonceRepository;
@@ -21,6 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  * @ORM\Entity(repositoryClass=AnnonceRepository::class)
+ * @ApiFilter(OrderFilter::class)
  */
 class Annonce
 {
@@ -42,7 +45,7 @@ class Annonce
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="annonce")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="annonce", cascade={"remove"})
      * @ApiSubresource()
      * @Groups({"post", "annonce_read", "user_read"})
      */
@@ -73,7 +76,7 @@ class Annonce
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"post", "annonce_read"})
+     * @Groups({"post", "annonce_read", "user_read"})
      * @Assert\Length(min="1", max="4000", minMessage="Les conditions pour le troc d'un ou plusieur livre(s) est obligatoire, elle doit faire au moins 15 caractéres", maxMessage="Les conditions pour le troc d'un ou plusieur livre(s) est obligatoire, elle doit faire au max 4000 caractéres")
      * @Assert\NotBlank(message="Les conditions pour le troc d'un ou plusieur livre(s) est obligatoire")
      */
@@ -87,13 +90,13 @@ class Annonce
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"post", "annonce_read"})
+     * @Groups({"post", "annonce_read", "user_read"})
      */
     private $category = [];
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"post", "annonce_read"})
+     * @Groups({"post", "annonce_read", "user_read"})
      */
     private $district;
 
